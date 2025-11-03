@@ -1,0 +1,10 @@
+---
+- name: restart nodejs
+  service:
+    name: nodejs
+    state: restarted
+
+- name: restart docker
+  service:
+    name: docker
+    state: restarted
