@@ -1,0 +1,5 @@
+aws_region = "us-east-1"
+app_name = "nodejs-cloud-app"
+instance_type = "t2.micro"
+environment = "production"
+owner = "devops-team"

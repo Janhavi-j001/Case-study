@@ -28,7 +28,40 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                echo '✅ Skipping tests for now...'
+                dir('nodejs-cloud-case-study/backend') {
+                    sh '''
+                        npm test
+                        npm run test:coverage
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'nodejs-cloud-case-study/backend/coverage',
+                        reportFiles: 'index.html',
+                        reportName: 'Coverage Report'
+                    ])
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                dir('nodejs-cloud-case-study/backend') {
+                    sh 'npm audit --audit-level moderate'
+                }
+            }
+        }
+
+        stage('Code Quality') {
+            steps {
+                dir('nodejs-cloud-case-study/backend') {
+                    sh 'npm run lint || true'
+                }
             }
         }
 
