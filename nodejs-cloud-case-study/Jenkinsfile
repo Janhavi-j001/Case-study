@@ -84,10 +84,15 @@ pipeline {
 
         stage('Wait for Server') {
             steps {
+                script {
+                    dir('nodejs-cloud-case-study/terraform') {
+                        env.SSH_KEY_PATH = sh(script: 'terraform output -raw private_key_path', returnStdout: true).trim()
+                    }
+                }
                 sh '''
                     echo "⏳ Waiting for server to be ready..."
                     for i in {1..30}; do
-                        if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@${SERVER_IP} "echo 'Server ready'"; then
+                        if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ubuntu@${SERVER_IP} "echo 'Server ready'"; then
                             echo "✅ Server is ready!"
                             break
                         fi

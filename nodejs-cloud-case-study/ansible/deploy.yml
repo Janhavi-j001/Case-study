@@ -6,6 +6,11 @@
     image_tag: "{{ ansible_env.GIT_COMMIT | default('latest') }}"
   
   tasks:
+    - name: Install Docker Python library
+      pip:
+        name: docker
+        state: present
+    
     - name: Pull Docker image
       docker_image:
         name: "{{ image_name }}:{{ image_tag }}"
