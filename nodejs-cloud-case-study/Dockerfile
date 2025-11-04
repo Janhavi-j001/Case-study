@@ -16,6 +16,7 @@ WORKDIR /app
 # Copy dependencies
 COPY --from=builder /app/node_modules ./node_modules
 COPY backend/ .
+COPY frontend/ ../frontend/
 
 # Security: Remove unnecessary packages
 RUN apk del --purge
