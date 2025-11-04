@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Dashboard - DevOps Cloud</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                <span>DevOps Cloud</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/health.html">Health</a></li>
+                <li><a href="/data.html">API Data</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-heartbeat"></i> System Health Dashboard</h1>
+            
+            <div class="health-grid">
+                <div class="health-card status-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>System Status</h3>
+                    <div id="status" class="status-indicator online">Loading...</div>
+                </div>
+                
+                <div class="health-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Uptime</h3>
+                    <div id="uptime" class="metric-value">--</div>
+                </div>
+                
+                <div class="health-card">
+                    <i class="fas fa-memory"></i>
+                    <h3>Memory Usage</h3>
+                    <div id="memory" class="metric-value">--</div>
+                </div>
+                
+                <div class="health-card">
+                    <i class="fas fa-server"></i>
+                    <h3>Environment</h3>
+                    <div id="environment" class="metric-value">--</div>
+                </div>
+            </div>
+
+            <div class="details-section">
+                <h2>Detailed Metrics</h2>
+                <div class="metrics-table">
+                    <div class="metric-row">
+                        <span class="metric-label">Timestamp:</span>
+                        <span id="timestamp" class="metric-data">--</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Version:</span>
+                        <span id="version" class="metric-data">--</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Heap Used:</span>
+                        <span id="heapUsed" class="metric-data">--</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Heap Total:</span>
+                        <span id="heapTotal" class="metric-data">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function loadHealthData() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                document.getElementById('status').textContent = data.status;
+                document.getElementById('status').className = `status-indicator ${data.status === 'OK' ? 'online' : 'offline'}`;
+                
+                document.getElementById('uptime').textContent = `${Math.floor(data.uptime / 60)} minutes`;
+                document.getElementById('memory').textContent = `${Math.round(data.memory.heapUsed / 1024 / 1024)} MB`;
+                document.getElementById('environment').textContent = data.environment;
+                document.getElementById('timestamp').textContent = new Date(data.timestamp).toLocaleString();
+                document.getElementById('version').textContent = data.version;
+                document.getElementById('heapUsed').textContent = `${Math.round(data.memory.heapUsed / 1024 / 1024)} MB`;
+                document.getElementById('heapTotal').textContent = `${Math.round(data.memory.heapTotal / 1024 / 1024)} MB`;
+                
+            } catch (error) {
+                console.error('Failed to load health data:', error);
+                document.getElementById('status').textContent = 'Error';
+                document.getElementById('status').className = 'status-indicator offline';
+            }
+        }
+        
+        loadHealthData();
+        setInterval(loadHealthData, 5000); // Refresh every 5 seconds
+    </script>
+</body>
+</html>

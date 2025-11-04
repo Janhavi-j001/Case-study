@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Data - DevOps Cloud</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                <span>DevOps Cloud</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/health.html">Health</a></li>
+                <li><a href="/data.html">API Data</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <div class="container">
+            <h1><i class="fas fa-database"></i> API Data Dashboard</h1>
+            
+            <div class="api-section">
+                <div class="api-card">
+                    <h2><i class="fas fa-comment-dots"></i> Application Message</h2>
+                    <div id="message" class="api-content">Loading...</div>
+                </div>
+                
+                <div class="api-card">
+                    <h2><i class="fas fa-server"></i> Server Information</h2>
+                    <div class="server-info">
+                        <div class="info-row">
+                            <span class="info-label">Hostname:</span>
+                            <span id="hostname" class="info-value">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Platform:</span>
+                            <span id="platform" class="info-value">--</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Node Version:</span>
+                            <span id="nodeVersion" class="info-value">--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="api-card">
+                    <h2><i class="fas fa-list"></i> Data Collection</h2>
+                    <div id="dataList" class="data-list">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No data items available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="json-section">
+                <h2><i class="fas fa-code"></i> Raw JSON Response</h2>
+                <div class="json-container">
+                    <pre id="jsonData">Loading...</pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function loadApiData() {
+            try {
+                const response = await fetch('/api/data');
+                const data = await response.json();
+                
+                // Update message
+                document.getElementById('message').textContent = data.message;
+                
+                // Update server info
+                document.getElementById('hostname').textContent = data.server.hostname;
+                document.getElementById('platform').textContent = data.server.platform;
+                document.getElementById('nodeVersion').textContent = data.server.nodeVersion;
+                
+                // Update data list
+                const dataList = document.getElementById('dataList');
+                if (data.data && data.data.length > 0) {
+                    dataList.innerHTML = data.data.map(item => 
+                        `<div class="data-item">${JSON.stringify(item)}</div>`
+                    ).join('');
+                } else {
+                    dataList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No data items available</p>
+                        </div>
+                    `;
+                }
+                
+                // Update raw JSON
+                document.getElementById('jsonData').textContent = JSON.stringify(data, null, 2);
+                
+            } catch (error) {
+                console.error('Failed to load API data:', error);
+                document.getElementById('message').textContent = 'Error loading data';
+                document.getElementById('jsonData').textContent = 'Error: Failed to fetch data';
+            }
+        }
+        
+        loadApiData();
+    </script>
+</body>
+</html>
