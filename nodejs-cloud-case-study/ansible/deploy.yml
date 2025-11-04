@@ -44,3 +44,69 @@
         ports:
           - "3000:3000"
         restart_policy: unless-stopped
+    
+    - name: Create monitoring directory
+      file:
+        path: /home/ubuntu/monitoring
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+    
+    - name: Create Prometheus config
+      copy:
+        content: |
+          global:
+            scrape_interval: 15s
+          scrape_configs:
+            - job_name: 'nodejs-app'
+              static_configs:
+                - targets: ['localhost:3000']
+              metrics_path: '/api/metrics'
+              scrape_interval: 5s
+        dest: /home/ubuntu/monitoring/prometheus.yml
+        owner: ubuntu
+        group: ubuntu
+    
+    - name: Stop existing Prometheus container
+      docker_container:
+        name: prometheus
+        state: stopped
+      ignore_errors: yes
+    
+    - name: Remove existing Prometheus container
+      docker_container:
+        name: prometheus
+        state: absent
+      ignore_errors: yes
+    
+    - name: Run Prometheus container
+      docker_container:
+        name: prometheus
+        image: prom/prometheus:latest
+        ports:
+          - "9090:9090"
+        volumes:
+          - "/home/ubuntu/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"
+        restart_policy: unless-stopped
+    
+    - name: Stop existing Grafana container
+      docker_container:
+        name: grafana
+        state: stopped
+      ignore_errors: yes
+    
+    - name: Remove existing Grafana container
+      docker_container:
+        name: grafana
+        state: absent
+      ignore_errors: yes
+    
+    - name: Run Grafana container
+      docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        ports:
+          - "3001:3000"
+        env:
+          GF_SECURITY_ADMIN_PASSWORD: admin123
+        restart_policy: unless-stopped
