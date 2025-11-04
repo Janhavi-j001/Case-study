@@ -3,7 +3,7 @@
   become: yes
   vars:
     image_name: "janhavi001/nodejs-cloud-app"
-    image_tag: "{{ ansible_env.GIT_COMMIT | default('latest') }}"
+    image_tag: "{{ lookup('env', 'GIT_COMMIT') | default('latest') }}"
   
   tasks:
     - name: Update apt cache
