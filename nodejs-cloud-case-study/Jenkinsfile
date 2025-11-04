@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git branch: 'main',
+                git branch: 'master',
                     credentialsId: 'github-creds',
                     url: 'https://github.com/Janhavi-j001/Case-study.git'
             }
