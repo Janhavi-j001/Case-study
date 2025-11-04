@@ -3,14 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node.js Cloud App</title>
+    <title>DevOps Cloud Platform</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <img src="assets/logo.png" alt="Logo" class="logo">
-        <h1>Node.js Cloud Application</h1>
-        <div id="app"></div>
-    </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-cloud"></i>
+                <span>DevOps Cloud</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#monitoring">Monitoring</a></li>
+                <li><a href="#api">API</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-rocket"></i> DevOps Cloud Platform</h1>
+            <p>Complete CI/CD Pipeline with Infrastructure as Code</p>
+            <div class="hero-buttons">
+                <a href="/api/health" class="btn btn-primary">Health Check</a>
+                <a href="/api/data" class="btn btn-secondary">API Data</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="services">
+            <div class="container">
+                <h2>DevOps Services</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <i class="fab fa-jenkins"></i>
+                        <h3>CI/CD Pipeline</h3>
+                        <p>Automated build, test, and deployment with Jenkins</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fab fa-docker"></i>
+                        <h3>Containerization</h3>
+                        <p>Docker containers with multi-stage builds</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-cubes"></i>
+                        <h3>Kubernetes</h3>
+                        <p>Container orchestration and scaling</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-code-branch"></i>
+                        <h3>Infrastructure as Code</h3>
+                        <p>Terraform for AWS resource management</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="monitoring">
+            <div class="container">
+                <h2>System Status</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <h3>Application Health</h3>
+                        <div class="status-indicator online">Online</div>
+                    </div>
+                    <div class="status-card">
+                        <i class="fas fa-server"></i>
+                        <h3>Server Status</h3>
+                        <div class="status-indicator online">Running</div>
+                    </div>
+                    <div class="status-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Database</h3>
+                        <div class="status-indicator online">Connected</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 DevOps Cloud Platform | Built with Node.js, Docker, Kubernetes & AWS</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fetch and display real-time health data
+        async function updateHealthStatus() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                console.log('Health Status:', data);
+            } catch (error) {
+                console.error('Health check failed:', error);
+            }
+        }
+        
+        // Update health status every 30 seconds
+        setInterval(updateHealthStatus, 30000);
+        updateHealthStatus();
+    </script>
 </body>
 </html>
