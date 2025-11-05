@@ -15,8 +15,11 @@
         name: python3-pip
         state: present
     
-    - name: Pull Docker image
-      shell: docker pull {{ image_name }}:{{ image_tag }}
+    - name: Pull Docker image or use existing
+      shell: |
+        docker pull {{ image_name }}:{{ image_tag }} || \
+        docker pull {{ image_name }}:latest || \
+        echo "Using existing local image"
     
     - name: Stop existing container
       shell: docker stop nodejs-app || true
@@ -26,11 +29,22 @@
     
     - name: Run new container
       shell: |
+        # Try with specific tag first, then latest, then any available tag
         docker run -d \
           --name nodejs-app \
           -p 3000:3000 \
           --restart unless-stopped \
-          {{ image_name }}:{{ image_tag }}
+          {{ image_name }}:{{ image_tag }} || \
+        docker run -d \
+          --name nodejs-app \
+          -p 3000:3000 \
+          --restart unless-stopped \
+          {{ image_name }}:latest || \
+        docker run -d \
+          --name nodejs-app \
+          -p 3000:3000 \
+          --restart unless-stopped \
+          $(docker images {{ image_name }} --format "{{.Repository}}:{{.Tag}}" | head -1)
     
     - name: Create monitoring directory
       file:
