@@ -15,35 +15,22 @@
         name: python3-pip
         state: present
     
-    - name: Install Docker Python library
-      pip:
-        name: docker
-        state: present
-    
     - name: Pull Docker image
-      docker_image:
-        name: "{{ image_name }}:{{ image_tag }}"
-        source: pull
+      shell: docker pull {{ image_name }}:{{ image_tag }}
     
     - name: Stop existing container
-      docker_container:
-        name: nodejs-app
-        state: stopped
-      ignore_errors: yes
+      shell: docker stop nodejs-app || true
     
     - name: Remove existing container
-      docker_container:
-        name: nodejs-app
-        state: absent
-      ignore_errors: yes
+      shell: docker rm nodejs-app || true
     
     - name: Run new container
-      docker_container:
-        name: nodejs-app
-        image: "{{ image_name }}:{{ image_tag }}"
-        ports:
-          - "3000:3000"
-        restart_policy: unless-stopped
+      shell: |
+        docker run -d \
+          --name nodejs-app \
+          -p 3000:3000 \
+          --restart unless-stopped \
+          {{ image_name }}:{{ image_tag }}
     
     - name: Create monitoring directory
       file:
@@ -68,45 +55,31 @@
         group: ubuntu
     
     - name: Stop existing Prometheus container
-      docker_container:
-        name: prometheus
-        state: stopped
-      ignore_errors: yes
+      shell: docker stop prometheus || true
     
     - name: Remove existing Prometheus container
-      docker_container:
-        name: prometheus
-        state: absent
-      ignore_errors: yes
+      shell: docker rm prometheus || true
     
     - name: Run Prometheus container
-      docker_container:
-        name: prometheus
-        image: prom/prometheus:latest
-        ports:
-          - "9090:9090"
-        volumes:
-          - "/home/ubuntu/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"
-        restart_policy: unless-stopped
+      shell: |
+        docker run -d \
+          --name prometheus \
+          -p 9090:9090 \
+          -v /home/ubuntu/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml \
+          --restart unless-stopped \
+          prom/prometheus:latest
     
     - name: Stop existing Grafana container
-      docker_container:
-        name: grafana
-        state: stopped
-      ignore_errors: yes
+      shell: docker stop grafana || true
     
     - name: Remove existing Grafana container
-      docker_container:
-        name: grafana
-        state: absent
-      ignore_errors: yes
+      shell: docker rm grafana || true
     
     - name: Run Grafana container
-      docker_container:
-        name: grafana
-        image: grafana/grafana:latest
-        ports:
-          - "3001:3000"
-        env:
-          GF_SECURITY_ADMIN_PASSWORD: admin123
-        restart_policy: unless-stopped
+      shell: |
+        docker run -d \
+          --name grafana \
+          -p 3001:3000 \
+          -e GF_SECURITY_ADMIN_PASSWORD=admin123 \
+          --restart unless-stopped \
+          grafana/grafana:latest
