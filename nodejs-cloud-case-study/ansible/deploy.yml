@@ -29,7 +29,6 @@
     
     - name: Run new container
       shell: |
-        # Try with specific tag first, then latest, then any available tag
         docker run -d \
           --name nodejs-app \
           -p 3000:3000 \
@@ -44,7 +43,7 @@
           --name nodejs-app \
           -p 3000:3000 \
           --restart unless-stopped \
-          $(docker images {{ image_name }} --format "{{.Repository}}:{{.Tag}}" | head -1)
+          $(docker images {{ image_name }} --format "{% raw %}{{.Repository}}:{{.Tag}}{% endraw %}" | head -1)
     
     - name: Create monitoring directory
       file:
