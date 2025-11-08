@@ -24,9 +24,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir('nodejs-cloud-case-study/backend') {
-                    sh 'npm install'
-                }
+                echo '📦 Dependencies will be installed during Docker build'
             }
         }
 
