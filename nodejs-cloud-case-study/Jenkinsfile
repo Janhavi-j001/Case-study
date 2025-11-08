@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('H/2 * * * *')  // Poll every 2 minutes
+    }
+
     tools {
         nodejs "Node18"
     }
