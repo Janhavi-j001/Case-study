@@ -6,10 +6,21 @@
     image_tag: "{{ lookup('env', 'GIT_COMMIT') | default('latest') }}"
   
   tasks:
+    - name: Wait for system to be ready
+      wait_for:
+        timeout: 300
+        
+    - name: Wait for apt lock to be released
+      shell: |
+        while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+          echo "Waiting for apt lock to be released..."
+          sleep 10
+        done
+      
     - name: Update apt cache
       apt:
         update_cache: yes
-    
+        
     - name: Install pip
       apt:
         name: python3-pip

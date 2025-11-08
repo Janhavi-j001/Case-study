@@ -93,13 +93,13 @@ pipeline {
                 }
                 sh '''
                     echo "⏳ Waiting for server to be ready..."
-                    for i in {1..30}; do
-                        if ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ubuntu@${SERVER_IP} "echo 'Server ready'"; then
+                    for i in $(seq 1 30); do
+                        if ssh -o ConnectTimeout=10 -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ubuntu@${SERVER_IP} "echo 'Server ready'"; then
                             echo "✅ Server is ready!"
                             break
                         fi
                         echo "Attempt $i/30 - Server not ready yet..."
-                        sleep 10
+                        sleep 15
                     done
                 '''
             }
@@ -122,7 +122,8 @@ ansible_ssh_private_key_file=${SSH_KEY_PATH}
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 EOF
                         
-                        # Add server to known hosts
+                        # Create SSH directory and add server to known hosts
+                        mkdir -p ~/.ssh
                         ssh-keyscan -H ${SERVER_IP} >> ~/.ssh/known_hosts 2>/dev/null || true
                         
                         # Deploy with Ansible
