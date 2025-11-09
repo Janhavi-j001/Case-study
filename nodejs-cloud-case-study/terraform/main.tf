@@ -29,7 +29,7 @@ resource "local_file" "private_key" {
 }
 
 resource "aws_security_group" "app_sg" {
-  name = "${var.app_name}-sg"
+  name = "${var.app_name}-sg-${random_id.key_suffix.hex}"
 
   ingress {
     from_port   = 22
