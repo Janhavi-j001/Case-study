@@ -8,7 +8,7 @@
   tasks:
     - name: Wait for system to be ready
       wait_for:
-        timeout: 300
+        timeout: 60
         
     - name: Wait for apt lock to be released
       shell: |
