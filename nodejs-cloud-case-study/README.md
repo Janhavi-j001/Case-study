@@ -1,176 +1,250 @@
-# 🚀 Node.js Cloud DevOps Case Study
+# Node.js Cloud DevOps Case Study
 
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]
-[![Docker](https://img.shields.io/badge/docker-ready-blue)]
-[![Kubernetes](https://img.shields.io/badge/k8s-ready-326ce5)]
-[![Terraform](https://img.shields.io/badge/terraform-validated-623ce4)]
-
-A production-ready Node.js application demonstrating complete DevOps lifecycle with CI/CD, Infrastructure as Code, containerization, and cloud deployment.
+A complete DevOps pipeline demonstrating CI/CD, Infrastructure as Code, containerization, and monitoring for a Node.js application.
 
 ## 🏗️ Architecture Overview
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   GitHub    │───▶│   Jenkins   │───▶│    AWS      │
-│  (Source)   │    │   (CI/CD)   │    │ (Production)│
-└─────────────┘    └─────────────┘    └─────────────┘
-       │                   │                   │
-       ▼                   ▼                   ▼
-  Code Changes      Build & Test         Auto Deploy
+GitHub → Jenkins → Docker Hub → Terraform → AWS EC2 → Ansible → Monitoring
 ```
 
-## 🛠️ Technology Stack
+## 🚀 Features
 
-- **Application**: Node.js, Express.js
-- **Containerization**: Docker, Docker Compose
-- **Orchestration**: Kubernetes
-- **Infrastructure**: Terraform (AWS)
-- **Configuration**: Ansible
-- **CI/CD**: Jenkins Pipeline
-- **Monitoring**: Prometheus, Grafana
-- **Testing**: Jest, Supertest
+- **CI/CD Pipeline**: Automated build, test, and deployment with Jenkins
+- **Infrastructure as Code**: AWS infrastructure provisioning with Terraform
+- **Containerization**: Docker multi-stage builds for optimized production images
+- **Configuration Management**: Ansible playbooks for application deployment
+- **Monitoring Stack**: Prometheus and Grafana for metrics and visualization
+- **Professional UI**: Modern DevOps platform dashboard with health monitoring
 
 ## 📁 Project Structure
 
 ```
-├── backend/              # Node.js Express API
-│   ├── controllers/      # API controllers
-│   ├── routes/          # API routes
-│   ├── tests/           # Unit & integration tests
-│   └── package.json     # Dependencies & scripts
-├── terraform/           # Infrastructure as Code
-│   ├── main.tf         # AWS resources
-│   ├── variables.tf    # Input variables
-│   └── outputs.tf      # Output values
-├── ansible/            # Configuration management
-│   ├── deploy.yml      # Deployment playbook
-│   └── inventory.ini   # Server inventory
-├── k8s/               # Kubernetes manifests
-│   ├── deployment.yml # App deployment
-│   ├── service.yml    # Load balancer
-│   └── ingress.yml    # Ingress controller
-├── Jenkinsfile        # CI/CD pipeline
-└── docker-compose.yml # Local development
+nodejs-cloud-case-study/
+├── backend/                 # Node.js Express API
+│   ├── app.js              # Main application
+│   ├── package.json        # Dependencies
+│   └── healthcheck.js      # Health check endpoint
+├── frontend/               # Professional DevOps UI
+│   ├── index.html         # Dashboard interface
+│   ├── style.css          # Modern styling
+│   └── script.js          # API integration
+├── terraform/             # Infrastructure as Code
+│   ├── main.tf           # AWS resources
+│   ├── provider.tf       # AWS provider config
+│   └── outputs.tf        # Infrastructure outputs
+├── ansible/              # Configuration Management
+│   └── deploy.yml       # Deployment playbook
+├── k8s/                 # Kubernetes manifests
+│   ├── deployment.yml   # App deployment
+│   └── service.yml      # Load balancer service
+├── Dockerfile           # Multi-stage container build
+└── Jenkinsfile         # CI/CD pipeline definition
 ```
 
-## 🚀 Quick Start
+## 🛠️ Technology Stack
+
+### Backend
+- **Node.js 18** - Runtime environment
+- **Express.js** - Web framework
+- **Helmet** - Security middleware
+- **Rate Limiting** - API protection
+
+### DevOps Tools
+- **Jenkins** - CI/CD automation
+- **Docker** - Containerization
+- **Terraform** - Infrastructure provisioning
+- **Ansible** - Configuration management
+- **AWS EC2** - Cloud infrastructure
+
+### Monitoring
+- **Prometheus** - Metrics collection
+- **Grafana** - Visualization dashboard
+- **Health Checks** - Application monitoring
+
+## 🚦 CI/CD Pipeline
+
+### Pipeline Stages
+
+1. **Clone Repository** - Fetch latest code from GitHub
+2. **Install Dependencies** - Handled during Docker build
+3. **Run Tests** - Automated testing (configured for demo)
+4. **Docker Build & Push** - Create and publish container images
+5. **Terraform Deploy** - Provision AWS infrastructure
+6. **Wait for Server** - Ensure EC2 instance is ready
+7. **Ansible Deploy** - Deploy application and monitoring stack
+
+### Automated Triggers
+- **SCM Polling** - Checks for changes every 2 minutes
+- **Webhook Support** - GitHub webhook integration available
+
+## 🏃‍♂️ Quick Start
 
 ### Prerequisites
-- AWS Account with CLI configured
-- Docker & Docker Compose
-- Jenkins with required plugins
-- Terraform >= 1.0
-- Ansible >= 2.9
+- AWS Account with appropriate permissions
+- Jenkins server with required plugins
+- Docker Hub account
+- GitHub repository access
 
-### Local Development
+### Setup Instructions
+
+1. **Configure Jenkins Credentials**
+   ```bash
+   # Add these credentials in Jenkins:
+   - github-creds: GitHub access token
+   - dockerhub: Docker Hub username/password
+   ```
+
+2. **Configure AWS Credentials**
+   ```bash
+   # On Jenkins server:
+   sudo su - jenkins
+   aws configure
+   # Enter AWS Access Key, Secret Key, Region (us-east-1)
+   ```
+
+3. **Create Jenkins Pipeline**
+   - New Item → Pipeline
+   - Pipeline script from SCM
+   - Repository: `https://github.com/Janhavi-j001/Case-study.git`
+   - Script Path: `nodejs-cloud-case-study/Jenkinsfile`
+
+4. **Enable SCM Polling**
+   - Build Triggers → Poll SCM
+   - Schedule: `H/2 * * * *`
+
+### Manual Deployment
+
 ```bash
 # Clone repository
 git clone https://github.com/Janhavi-j001/Case-study.git
 cd Case-study/nodejs-cloud-case-study
 
-# Start local environment
-docker-compose up -d
+# Build and run locally
+docker build -t nodejs-cloud-app .
+docker run -p 3000:3000 nodejs-cloud-app
 
-# Run tests
-cd backend && npm test
+# Deploy infrastructure
+cd terraform
+terraform init
+terraform plan
+terraform apply
+
+# Deploy application
+cd ../ansible
+ansible-playbook -i inventory deploy.yml
 ```
 
-### Production Deployment
-1. **Configure Jenkins Pipeline**
-   - Add GitHub credentials
-   - Add DockerHub credentials
-   - Configure AWS CLI
+## 🌐 Application Endpoints
 
-2. **Run Pipeline**
-   - Triggers on code push
-   - Automated testing & security scans
-   - Infrastructure provisioning
-   - Application deployment
+### Main Application
+- **Health Check**: `http://your-server:3000/api/health`
+- **API Data**: `http://your-server:3000/api/data`
+- **Dashboard**: `http://your-server:3000`
 
-## 🔧 DevOps Features
+### Monitoring
+- **Prometheus**: `http://your-server:9090`
+- **Grafana**: `http://your-server:3001`
+  - Username: `admin`
+  - Password: `admin123`
 
-### ✅ CI/CD Pipeline
-- Automated testing with coverage reports
-- Security vulnerability scanning
-- Code quality checks (ESLint)
-- Multi-stage Docker builds
-- Blue-green deployments
+## 📊 Monitoring & Observability
 
-### ✅ Infrastructure as Code
-- AWS EC2 instances with auto-scaling
-- Security groups with least privilege
-- Auto-generated SSH keys
-- Resource tagging & cost optimization
+### Metrics Available
+- Application health status
+- HTTP request metrics
+- System resource usage
+- Container performance
 
-### ✅ Monitoring & Observability
-- Health check endpoints
-- Application metrics
-- Prometheus monitoring
-- Grafana dashboards
-- Centralized logging
+### Grafana Dashboards
+- Real-time application metrics
+- Infrastructure monitoring
+- Custom business metrics
+- Alert configurations
 
-### ✅ Security Best Practices
-- Non-root container execution
-- Read-only root filesystem
-- Security context constraints
-- Vulnerability scanning
-- Secrets management
+## 🔧 Configuration
 
-## 📊 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|--------------|
-| `/api/health` | GET | Health check with system info |
-| `/api/data` | GET | Application data |
-| `/api/metrics` | GET | Application metrics |
-
-## 🔍 Monitoring
-
-- **Application**: http://your-domain:3000
-- **Prometheus**: http://your-domain:9090
-- **Grafana**: http://your-domain:3001 (admin/admin123)
-
-## 🧪 Testing
-
+### Environment Variables
 ```bash
-# Unit tests
-npm test
-
-# Coverage report
-npm run test:coverage
-
-# Security audit
-npm run security-audit
-
-# Linting
-npm run lint
+NODE_ENV=production
+PORT=3000
+AWS_DEFAULT_REGION=us-east-1
 ```
 
-## 🚀 Deployment Strategies
+### Docker Configuration
+- Multi-stage build for optimization
+- Non-root user for security
+- Health checks included
+- Production-ready setup
 
-- **Rolling Updates**: Zero-downtime deployments
-- **Health Checks**: Automatic failure detection
-- **Rollback**: Quick revert to previous version
-- **Auto-scaling**: Based on CPU/memory usage
+### Security Features
+- Helmet.js security headers
+- Rate limiting protection
+- Non-root container execution
+- SSH key-based authentication
 
-## 📈 Performance Metrics
+## 🚨 Troubleshooting
 
-- **Build Time**: ~3-5 minutes
-- **Deployment Time**: ~2-3 minutes
-- **Test Coverage**: >80%
-- **Security Score**: A+
+### Common Issues
 
-## 🤝 Contributing
+**Docker Permission Denied**
+```bash
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+```
+
+**AWS Credentials Not Found**
+```bash
+aws configure
+aws sts get-caller-identity
+```
+
+**APT Lock Issues**
+- Ansible playbook includes automatic APT lock handling
+- Waits for system updates to complete
+
+**Server Not Ready**
+- Pipeline includes robust server readiness checks
+- Automatic retry with exponential backoff
+
+## 📈 Performance Optimizations
+
+- **Multi-stage Docker builds** - Reduced image size
+- **Caching strategies** - Faster builds
+- **Resource limits** - Kubernetes resource management
+- **Health checks** - Automatic recovery
+
+## 🔄 Continuous Improvement
+
+### Planned Enhancements
+- Automated testing integration
+- Blue-green deployment strategy
+- Advanced monitoring alerts
+- Security scanning integration
+
+## 📝 Contributing
 
 1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
 ## 📄 License
 
-MIT License - see LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- **Janhavi Jadhav** - *Initial work* - [Janhavi-j001](https://github.com/Janhavi-j001)
+
+## 🙏 Acknowledgments
+
+- AWS for cloud infrastructure
+- Jenkins community for CI/CD tools
+- Docker for containerization platform
+- Terraform for infrastructure automation
+- Ansible for configuration management
 
 ---
 
