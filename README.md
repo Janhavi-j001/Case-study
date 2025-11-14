@@ -64,6 +64,25 @@ A complete enterprise-grade DevOps pipeline demonstrating CI/CD, Infrastructure 
 - **🔒 Security**: Non-root containers, security groups, SSH key management
 - **📈 Real-time Metrics**: Live performance monitoring with professional visualizations
 
+## 🛠️ Technology Stack
+
+### Backend
+- **Node.js 18** - Runtime environment
+- **Express.js** - Web framework
+- **Helmet** - Security middleware
+- **Rate Limiting** - API protection
+
+### DevOps Tools
+- **Jenkins** - CI/CD automation
+- **Docker** - Containerization
+- **Terraform** - Infrastructure provisioning
+- **Ansible** - Configuration management
+- **AWS EC2** - Cloud infrastructure
+
+### Monitoring
+- **Prometheus** - Metrics collection
+- **Grafana** - Visualization dashboard
+
 ## 📁 Project Structure
 
 ```
@@ -96,26 +115,6 @@ nodejs-cloud-case-study/
 ├── Jenkinsfile         # CI/CD pipeline definition
 └── README.md           # This file
 ```
-
-## 🛠️ Technology Stack
-
-### Backend
-- **Node.js 18** - Runtime environment
-- **Express.js** - Web framework
-- **Helmet** - Security middleware
-- **Rate Limiting** - API protection
-
-### DevOps Tools
-- **Jenkins** - CI/CD automation
-- **Docker** - Containerization
-- **Terraform** - Infrastructure provisioning
-- **Ansible** - Configuration management
-- **AWS EC2** - Cloud infrastructure
-
-### Monitoring
-- **Prometheus** - Metrics collection
-- **Grafana** - Visualization dashboard
-- **Health Checks** - Application monitoring
 
 ## 🚦 CI/CD Pipeline
 
