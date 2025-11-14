@@ -8,7 +8,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
 }
 
 .container {
@@ -43,7 +43,7 @@ body {
     align-items: center;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #667eea;
+    color: #e74c3c;
 }
 
 .logo i {
@@ -65,12 +65,12 @@ body {
 }
 
 .nav-menu a:hover {
-    color: #667eea;
+    color: #e74c3c;
 }
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
     padding: 150px 0 100px;
     text-align: center;
@@ -107,8 +107,8 @@ body {
 }
 
 .btn-primary {
-    background: #fff;
-    color: #667eea;
+    background: #e74c3c;
+    color: #fff;
 }
 
 .btn-primary:hover {
@@ -123,8 +123,8 @@ body {
 }
 
 .btn-secondary:hover {
-    background: white;
-    color: #667eea;
+    background: #e74c3c;
+    color: white;
 }
 
 /* Main Content */
@@ -163,13 +163,13 @@ body {
 
 .service-card i {
     font-size: 3rem;
-    color: #667eea;
+    color: #e74c3c;
     margin-bottom: 1rem;
 }
 
 .status-card i {
     font-size: 2.5rem;
-    color: #28a745;
+    color: #27ae60;
     margin-bottom: 1rem;
 }
 
@@ -193,8 +193,8 @@ body {
 }
 
 .status-indicator.online {
-    background: #d4edda;
-    color: #155724;
+    background: #d5f4e6;
+    color: #27ae60;
 }
 
 /* Monitoring Section */
@@ -205,7 +205,7 @@ body {
 
 /* Footer */
 .footer {
-    background: #333;
+    background: #2c3e50;
     color: white;
     text-align: center;
     padding: 2rem 0;
@@ -250,12 +250,12 @@ body {
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #e74c3c;
 }
 
 .health-card i {
     font-size: 2.5rem;
-    color: #667eea;
+    color: #e74c3c;
     margin-bottom: 1rem;
 }
 
@@ -314,7 +314,7 @@ body {
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border-left: 4px solid #28a745;
+    border-left: 4px solid #27ae60;
 }
 
 .api-card h2 {
@@ -327,7 +327,7 @@ body {
 
 .api-content {
     font-size: 1.2rem;
-    color: #667eea;
+    color: #e74c3c;
     font-weight: 500;
     padding: 1rem;
     background: #f8f9fa;
