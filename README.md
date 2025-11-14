@@ -69,8 +69,6 @@ A complete enterprise-grade DevOps pipeline demonstrating CI/CD, Infrastructure 
 ### Backend
 - **Node.js 18** - Runtime environment
 - **Express.js** - Web framework
-- **Helmet** - Security middleware
-- **Rate Limiting** - API protection
 
 ### DevOps Tools
 - **Jenkins** - CI/CD automation
